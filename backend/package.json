@@ -1,6 +1,7 @@
 {
   "name": "healthcare-backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "Healthcare Management System API",
   "main": "index.js",
   "scripts": {
