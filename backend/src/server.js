@@ -8,6 +8,7 @@ import rateLimit from "express-rate-limit";
 import connectDB from "./config/database.js";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
 import authRoutes from "./routes/authRoutes.js";
+import visitRoutes from "./routes/visitRoutes.js";
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/visit", visitRoutes);
 
 app.get("/", (req, res) => {
   res.json({
