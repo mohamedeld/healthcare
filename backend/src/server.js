@@ -38,8 +38,10 @@ app.use("/api/", limiter);
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-app.use(mongoSanitize());
-
+app.use((req, res, next) => {
+  if (req.body) mongoSanitize.sanitize(req.body);
+  next();
+});
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
@@ -53,7 +55,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-app.use("/api/visit", visitRoutes);
+app.use("/api/visits", visitRoutes);
 app.use("/api/finance", financeRoutes);
 
 app.get("/", (req, res) => {
