@@ -37,9 +37,12 @@ export interface IUser {
   role: "patient" | "doctor" | "finance";
   specialization?: string;
   phone?: string;
+  _id: string;
 }
 export interface IDoctor {
   id: string;
+  _id: string;
+  email: string;
   name: string;
   specialization: string;
 }

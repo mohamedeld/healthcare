@@ -30,7 +30,7 @@ export const treatmentSchema = z.object({
     "other",
   ]),
 });
-
+export type TreatmentSchema = z.infer<typeof treatmentSchema>;
 /**
  * Finance search validation schema
  */

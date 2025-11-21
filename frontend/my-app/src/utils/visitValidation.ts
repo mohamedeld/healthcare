@@ -19,6 +19,7 @@ export const createVisitSchema = z.object({
     .optional(),
 });
 
+export type TCreateVisitSchema = z.infer<typeof createVisitSchema>;
 /**
  * Update visit validation schema
  */
@@ -33,3 +34,4 @@ export const updateVisitSchema = z.object({
     .max(1000, "Chief complaint cannot exceed 1000 characters")
     .optional(),
 });
+export type TUpdateVisitSchema = z.infer<typeof updateVisitSchema>;
