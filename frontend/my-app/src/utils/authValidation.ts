@@ -40,7 +40,7 @@ export const registerSchema = z
       path: ["specialization"],
     }
   );
-
+export type TRegisterSchema = z.infer<typeof registerSchema>;
 /**
  * Change password validation schema
  */

@@ -74,3 +74,5 @@ export const financeSearchSchema = z
       path: ["endDate"],
     }
   );
+
+export type TSearchSchema = z.infer<typeof financeSearchSchema>;
