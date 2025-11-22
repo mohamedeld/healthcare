@@ -280,7 +280,7 @@ export function PatientDashboard() {
                 <textarea
                   {...register("chiefComplaint")}
                   rows={3}
-                  className={`input ${
+                  className={`input w-full ${
                     errors.chiefComplaint ? "border-red-500" : ""
                   }`}
                   placeholder="Describe your symptoms or reason for visit..."

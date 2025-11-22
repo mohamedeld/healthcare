@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { QUERY_KEYS, STALE_TIME } from "../config";
@@ -11,7 +12,6 @@ export const useFinanceVisits = (filters = {}, options = {}) => {
     queryKey: QUERY_KEYS.FINANCE_VISITS(filters),
     queryFn: () => financeService.searchVisits(filters),
     staleTime: STALE_TIME.SHORT,
-    keepPreviousData: true, // Keep old data while fetching new
     ...options,
   });
 };
@@ -46,7 +46,15 @@ export const useFinanceVisitDetail = (visitId: string) => {
 export const useUpdatePaymentStatus = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
+  return useMutation<
+    any,
+    unknown,
+    {
+      visitId: string;
+      paymentStatus: "pending" | "partial" | "paid";
+    },
+    { previousVisit?: any }
+  >({
     mutationFn: ({ visitId, paymentStatus }) =>
       financeService.updatePaymentStatus(visitId, paymentStatus),
 
@@ -65,7 +73,7 @@ export const useUpdatePaymentStatus = () => {
       // Optimistically update
       queryClient.setQueryData(
         QUERY_KEYS.VISIT_DETAIL_FINANCE(visitId),
-        (old) => (old ? { ...old, paymentStatus } : old)
+        (old: any) => (old ? { ...old, paymentStatus } : old)
       );
 
       return { previousVisit };
@@ -94,7 +102,7 @@ export const useUpdatePaymentStatus = () => {
       if (context?.previousVisit) {
         queryClient.setQueryData(
           QUERY_KEYS.VISIT_DETAIL_FINANCE(visitId),
-          context.previousVisit
+          context?.previousVisit
         );
       }
       console.error("Update payment status error:", error);
@@ -122,11 +130,11 @@ export const useExportVisits = () => {
 };
 
 // Helper function to convert data to CSV
-const convertToCSV = (data) => {
+const convertToCSV = (data: any) => {
   if (!data || data.length === 0) return "";
 
   const headers = Object.keys(data[0]).join(",");
-  const rows = data.map((row) =>
+  const rows = data.map((row: any) =>
     Object.values(row)
       .map((val) =>
         typeof val === "string" && val.includes(",") ? `"${val}"` : val
@@ -138,7 +146,7 @@ const convertToCSV = (data) => {
 };
 
 // Helper function to download CSV
-const downloadCSV = (csv, filename) => {
+const downloadCSV = (csv: any, filename: string) => {
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const link = document.createElement("a");
   const url = URL.createObjectURL(blob);

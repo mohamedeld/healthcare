@@ -22,12 +22,17 @@ import {
 import { DashboardLayout } from "../DashboardLayout";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { ErrorMessage } from "../ErrorMessage";
-import type { Visit } from "../../types";
+import type { Treatment, Visit } from "../../types";
+import { VisitListItem } from "../VisitListItem";
+import { VisitDetailPanel } from "../visitDetailPanel";
+import { TreatmentModal } from "../TreatmentModal";
 
 export default function DoctorDashboard() {
-  const [selectedVisit, setSelectedVisit] = useState(null);
+  const [selectedVisit, setSelectedVisit] = useState<Visit | null>(null);
   const [showTreatmentModal, setShowTreatmentModal] = useState(false);
-  const [editingTreatment, setEditingTreatment] = useState(null);
+  const [editingTreatment, setEditingTreatment] = useState<Treatment | null>(
+    null
+  );
 
   const { logout } = useAuth();
   const { data: visits, isLoading, error } = useMyVisits();
@@ -69,8 +74,10 @@ export default function DoctorDashboard() {
         { visitId: selectedVisit?._id, data },
         {
           onSuccess: () => {
-            // Refresh selected visit
-            setSelectedVisit((prev: any) => ({ ...prev, ...data }));
+            // Refresh selected visit (handle nullable previous state)
+            setSelectedVisit((prev: Visit | null) =>
+              prev ? { ...prev, ...data } : prev
+            );
           },
         }
       );
@@ -112,7 +119,7 @@ export default function DoctorDashboard() {
   };
 
   const handleEditTreatment = (treatment: TreatmentSchema) => {
-    setEditingTreatment(treatment);
+    setEditingTreatment(treatment as Treatment);
     setValue("name", treatment.name);
     setValue("description", treatment.description || "");
     setValue("quantity", treatment.quantity);
@@ -121,7 +128,7 @@ export default function DoctorDashboard() {
     setShowTreatmentModal(true);
   };
 
-  const handleUpdateTreatment = (data) => {
+  const handleUpdateTreatment = (data: TreatmentSchema) => {
     if (selectedVisit && editingTreatment) {
       updateTreatmentMutation.mutate(
         {
@@ -129,8 +136,8 @@ export default function DoctorDashboard() {
           treatmentId: editingTreatment._id,
           data: {
             ...data,
-            quantity: parseInt(data.quantity),
-            unitPrice: parseFloat(data.unitPrice),
+            quantity: data?.quantity,
+            unitPrice: data.unitPrice,
           },
         },
         {
@@ -144,7 +151,7 @@ export default function DoctorDashboard() {
     }
   };
 
-  const handleDeleteTreatment = (treatmentId) => {
+  const handleDeleteTreatment = (treatmentId: string) => {
     if (
       selectedVisit &&
       confirm("Are you sure you want to delete this treatment?")
@@ -189,7 +196,7 @@ export default function DoctorDashboard() {
 
   return (
     <DashboardLayout title="Doctor Dashboard">
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         {/* Left Panel - Visits List */}
         <div className="lg:col-span-1 space-y-4">
           <div className="flex justify-between items-center">
@@ -248,7 +255,7 @@ export default function DoctorDashboard() {
                 Completed Today
               </h3>
               <div className="space-y-2 max-h-64 overflow-y-auto">
-                {completedVisits.slice(0, 5).map((visit) => (
+                {completedVisits.slice(0, 5).map((visit: Visit) => (
                   <VisitListItem
                     key={visit._id}
                     visit={visit}
@@ -318,5 +325,3 @@ export default function DoctorDashboard() {
     </DashboardLayout>
   );
 }
-
-// Continued in Part 2...

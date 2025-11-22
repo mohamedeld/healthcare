@@ -1,12 +1,14 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useCurrentUser } from "./hooks";
-import { LoadingSpinner, ProtectedRoute } from "./components";
-import LoginPage from "./Pages/LoginPage";
+import { LoadingSpinner, PatientDashboard, ProtectedRoute } from "./components";
+import DoctorDashboard from "./components/Doctor/DoctorDashboard";
+import FinanceDashboard from "./components/FinanceDashboard";
+const LoginPage = lazy(() => import("./Pages/LoginPage"));
+const RegisterPage = lazy(() => import("./Pages/RegisterPage"));
 
 function App() {
   const { data: user, isLoading } = useCurrentUser();
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">

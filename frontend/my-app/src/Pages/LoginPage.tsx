@@ -6,7 +6,7 @@ import { Heart, Mail, Lock, Loader2 } from "lucide-react";
 import { useAuth } from "../hooks";
 import { loginSchema, type TLoginSchema } from "../utils";
 
-export function LoginPage() {
+export default function LoginPage() {
   const { login, isLoggingIn } = useAuth();
 
   const {

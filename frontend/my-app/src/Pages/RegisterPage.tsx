@@ -15,7 +15,7 @@ import {
 import { useAuth } from "../hooks";
 import { registerSchema, type TRegisterSchema } from "../utils";
 
-export function RegisterPage() {
+export default function RegisterPage() {
   const { register: registerUser, isRegistering } = useAuth();
 
   const {

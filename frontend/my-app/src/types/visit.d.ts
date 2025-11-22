@@ -6,6 +6,7 @@ export interface Visit {
   doctorId: IDoctor;
   date: string; // ISO date string
   reason: string;
+  chiefComplaint: string;
   notes?: string;
   treatments?: Treatment[];
   scheduledDate: string; // ISO date string
@@ -52,11 +53,18 @@ export interface Treatment {
   totalPrice: number;
 }
 export interface TreatmentDTO {
-  description: string;
+  description?: string;
   medication?: string;
   dosage?: string;
   unitPrice: number;
   quantity: number;
+  category?:
+    | "consultation"
+    | "medication"
+    | "procedure"
+    | "lab_test"
+    | "imaging"
+    | "other";
 }
 export interface TreatmentResponse {
   treatment: Treatment;
