@@ -21,24 +21,24 @@ export function VisitRow({
   isUpdating,
 }: IProps) {
   const status = formatStatus(visit?.status);
-  const paymentStatus = formatPaymentStatus(visit.paymentStatus);
+  const paymentStatus = formatPaymentStatus(visit?.paymentStatus);
 
   return (
     <tr className="hover:bg-gray-50">
       <td className="px-4 py-3 text-sm">
-        <span className="font-mono text-gray-600">{visit.id.slice(-8)}</span>
+        <span className="font-mono text-gray-600">{visit?._id?.slice(-8)}</span>
       </td>
       <td className="px-4 py-3 text-sm">
         <div>
-          <p className="font-medium text-gray-900">{visit.patientId?.name}</p>
-          <p className="text-gray-500 text-xs">{visit.patientId?.email}</p>
+          <p className="font-medium text-gray-900">{visit?.patient?.name}</p>
+          <p className="text-gray-500 text-xs">{visit?.patient?.email}</p>
         </div>
       </td>
       <td className="px-4 py-3 text-sm">
         <div>
-          <p className="font-medium text-gray-900">{visit.doctorId?.name}</p>
+          <p className="font-medium text-gray-900">{visit?.doctor?.name}</p>
           <p className="text-gray-500 text-xs">
-            {visit.doctorId?.specialization}
+            {visit?.doctor?.specialization}
           </p>
         </div>
       </td>
@@ -52,9 +52,9 @@ export function VisitRow({
         <span className={`badge ${status.className}`}>{status.label}</span>
       </td>
       <td className="px-4 py-3 text-sm">
-        {visit.status === "completed" ? (
+        {visit?.status === "completed" ? (
           <select
-            value={visit.paymentStatus}
+            value={visit?.paymentStatus}
             onChange={(e) => onUpdatePayment(visit?.id, e.target.value)}
             disabled={isUpdating}
             className={`text-xs border rounded px-2 py-1 ${paymentStatus.className} cursor-pointer`}

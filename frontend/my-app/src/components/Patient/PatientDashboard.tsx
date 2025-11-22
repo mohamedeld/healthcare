@@ -24,9 +24,13 @@ import { LoadingSpinner } from "../LoadingSpinner";
 import { ErrorMessage } from "../ErrorMessage";
 import type { IDoctor, Visit } from "../../types";
 import { VisitCard } from "../VisitCard";
+import { ConfirmModal } from "../ConfirmModal";
 
 export function PatientDashboard() {
   const [showCreateModal, setShowCreateModal] = useState(false);
+
+  const [visitToCancel, setVisitToCancel] = useState("");
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const { logout } = useAuth();
   const {
     data: visits,
@@ -56,10 +60,26 @@ export function PatientDashboard() {
   };
 
   const handleCancelVisit = (visitId: string) => {
-    if (confirm("Are you sure you want to cancel this visit?")) {
-      cancelVisit.mutate(visitId);
-    }
+    setVisitToCancel(visitId);
+    setIsConfirmOpen(true);
   };
+
+  if (visitToCancel && isConfirmOpen) {
+    return (
+      <ConfirmModal
+        isOpen={isConfirmOpen}
+        message="Are you sure you want to delete this treatment?"
+        onCancel={() => setIsConfirmOpen(false)}
+        onConfirm={() => {
+          if (visitToCancel && isConfirmOpen) {
+            cancelVisit.mutate(visitToCancel);
+          }
+          setIsConfirmOpen(false);
+          setVisitToCancel("");
+        }}
+      />
+    );
+  }
 
   if (visitsLoading) {
     return (

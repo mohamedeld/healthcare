@@ -2,8 +2,8 @@ import type { IDoctor, IUser } from "./auth";
 
 export interface Visit {
   id: string;
-  patientId: IUser;
-  doctorId: IDoctor;
+  patient: IUser;
+  doctor: IDoctor;
   date: string; // ISO date string
   reason: string;
   chiefComplaint: string;

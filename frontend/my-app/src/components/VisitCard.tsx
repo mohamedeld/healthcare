@@ -21,10 +21,10 @@ export function VisitCard({ visit, onCancel, isCancelling }: IProps) {
           </div>
           <div>
             <h3 className="font-semibold text-gray-900">
-              {visit.doctorId?.name}
+              {visit.doctor?.name}
             </h3>
             <p className="text-sm text-gray-600">
-              {visit.doctorId?.specialization}
+              {visit.doctor?.specialization}
             </p>
           </div>
         </div>

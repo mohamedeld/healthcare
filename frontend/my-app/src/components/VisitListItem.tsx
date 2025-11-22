@@ -30,7 +30,7 @@ export function VisitListItem({
         <div className="flex items-center space-x-2">
           <User className="w-4 h-4 text-gray-600" />
           <span className="font-medium text-sm text-gray-900">
-            {visit.patientId?.name}
+            {visit.patient?.name}
           </span>
         </div>
         <span className={`badge text-xs ${status.className}`}>

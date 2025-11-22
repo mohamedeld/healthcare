@@ -46,7 +46,7 @@ export function VisitDetailsModal({ visit, onClose, onUpdatePayment }: IProps) {
               </div>
               <div className="space-y-1 text-sm">
                 <p className="text-gray-900 font-medium">
-                  {visit?.patientId?.name}
+                  {visit?.patient?.name}
                 </p>
                 <p className="text-gray-600">{visit?.patientId?.email}</p>
                 {visit?.patientId?.phone && (
@@ -64,7 +64,7 @@ export function VisitDetailsModal({ visit, onClose, onUpdatePayment }: IProps) {
               </div>
               <div className="space-y-1 text-sm">
                 <p className="text-gray-900 font-medium">
-                  {visit.doctorId?.name}
+                  {visit.doctor?.name}
                 </p>
                 <p className="text-gray-600">
                   {visit?.doctorId?.specialization}

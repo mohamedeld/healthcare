@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import authService from "../services/authServices";
 import { QUERY_KEYS, ROUTES, STALE_TIME } from "../config";
+import { useCallback } from "react";
 
 /**
  * Hook for user authentication
@@ -66,18 +67,22 @@ export const useAuth = () => {
     },
   });
 
-  // Logout function
-  const logout = () => {
-    authService.logout();
-    queryClient.clear();
-    toast.success("Logged out successfully");
-    navigate(ROUTES.LOGIN);
-  };
+  const handleLogout = useCallback(() => {
+    try {
+      authService.logout(); // remove token
+      queryClient.clear(); // clear react-query cache
+      toast.success("Logged out successfully");
+
+      window.location.href = ROUTES.LOGIN;
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  }, [queryClient]);
 
   return {
     login: loginMutation.mutate,
     register: registerMutation.mutate,
-    logout,
+    logout: handleLogout,
     isLoggingIn: loginMutation.isPending,
     isRegistering: registerMutation.isPending,
   };

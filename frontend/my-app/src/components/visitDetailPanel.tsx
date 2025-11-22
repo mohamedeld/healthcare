@@ -41,7 +41,7 @@ export function VisitDetailPanel({
       <div className="flex justify-between items-start mb-6">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">
-            {visit.patientId?.name}
+            {visit.patient?.name}
           </h2>
           <p className="text-gray-600">{visit.patientId?.email}</p>
           <p className="text-sm text-gray-500 mt-1">
